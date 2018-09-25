@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: scylladb
+  namespace: scylladb
+  labels:
+    app: scylladb
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: scylladb
+  namespace: scylladb
+  labels:
+    app: scylladb
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  verbs:
+  - get
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: scylladb
+  namespace: scylladb
+  labels:
+    app: scylladb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: scylladb
+subjects:
+- kind: ServiceAccount
+  name: scylladb
+  namespace: scylladb
